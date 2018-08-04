@@ -55,7 +55,7 @@ docker kill bc4b6b155c2c
 - Import the sample code into your VSTS environment by copying it into your VSTS' Git repository and pushing it. 
 - Use VSTS to create a build definition which triggers on code changes. The build definition should 
     - create a new container image     
-    - use the build number as tag to identify your image. The buildId can be found in variable *$(Build.BuildId)*  (The screenshots may show Buildnumber - make sure to use the BuildId)
+    - use the build number as tag to identify your image. The buildId can be found in variable *$(Build.BuildId)* 
     - push the new image to your private Azure Container Registry (if you don't have an ACR, create one first)
 
 ## 3. Release to ACI manually
