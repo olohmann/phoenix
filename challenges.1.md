@@ -20,7 +20,7 @@ In this chapter you will get a basic experience in working with containers. For 
 
 
 ## 1. Containerize your app 
-- Get the code of the hello world application (git clone https://github.com/denniszielke/phoenix) locally and navigate to the folder (phoenix\apps\aci-helloworld).
+- Get the code of the hello world application, i.e. git clone this repository locally and navigate to the folder `phoenix\apps\aci-helloworld`.
 - Create a container image locally (you need docker running on your machine). Don't forget the trailing "." in the following line!
     ```
     docker build -t helloworld .
