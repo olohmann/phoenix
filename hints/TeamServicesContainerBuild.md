@@ -3,8 +3,15 @@ Team Services Configuration to build & push a docker image to your Azure Contain
 1. [Here](https://docs.microsoft.com/en-us/azure/container-registry/container-registry-get-started-portal) is how you create an Azure Container Registry in the Azure portal if you don't have one yet.
 
 
-2. Import the sample code from to your VSTS Team Project. You can do this via UI in the Code tab of your Team Project.
-![](images/import_code.jpg)
+2. Import the sample code from to your VSTS Team Project. For example:
+
+```sh
+cp -r aci-helloworld ~/labuser01/
+cd ~/labuser01/
+git add --all
+git commit -m "Added aci-helloworld sample code"
+git push
+```
 
 3. Create a new build definition you can do this in the Build & Release tab. Choose the submenu "Builds". Create an empty build definition.
 ![](images/newbuilddefinition.jpg)
