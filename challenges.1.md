@@ -35,12 +35,9 @@ In this chapter you will get a basic experience in working with containers. For 
     ```
 - Open the browser and navigate to the application you just started with your browser (http://localhost:8080). If you're running on a Linux VM in Azure, just run this command to avoid working with a graphical browser:
     ```
-    wget http://localhost:8080
+    curl http://localhost:8080
     ```
-    Then check the content with:
-    ```
-    cat index.html
-    ```
+    
 - Check the running processes
 ```
 docker ps
