@@ -1,74 +1,53 @@
 # Create container cluster
-https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough
 
-**Hint:** The "set KEY value" values commands work in Powershell. In Bash use KEY=value.
-Look up regions https://github.com/Azure/AKS/blob/master/preview_regions.md
+We are going to create an Azure AKS instance via the Azure Portal. In real-world projects, you would avoid the Portal UI for such tasks and use an automation strategy. We will discuss CLI-, ARM- and Terraform-based deployments in the Workshop.
 
-1. Use bash to create the resource group by using azure cloud shell (https://shell.azure.com/ )
-```
-LOCATION=eastus
-KUBE_GROUP=myKubeRG
-KUBE_NAME=myFirstKube
-az group create -n $KUBE_GROUP -l $LOCATION
-```
+More details: [Azure Kubernetes Walkthrough](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough).
 
-2. Create the aks cluster
-```
-az aks create --name $KUBE_NAME --resource-group $KUBE_GROUP --node-count 3 --generate-ssh-keys --kubernetes-version 1.8.7
-```
-Additional parameters can be found here https://docs.microsoft.com/en-us/cli/azure/aks?view=azure-cli-latest#az_aks_create
-if you have to use the given service principal (because you are not allowed to create services principals in azure ad) add the following parameters
-```
---client-secret HEREBESECRET --service-principal HEREBEAPPID
-```
-Customize the vm size with
-Look up vm sizes 
-```
-az vm list-sizes -l eastus
-```
-and set as parameter
-```
---node-vm-size Standard_B2s
-```
-3. Export the kubectrl credentials files. 
-```
+1. Prepare a Log Analytics Workspace that will be utilized by AKS' Container Monitoring feature.
+
+![](images/create_log_analytics_ws_1.png)
+![](images/create_log_analytics_ws_2.png)
+![](images/create_log_analytics_ws_3.png)
+![](images/create_log_analytics_ws_4.png)
+![](images/create_log_analytics_ws_5.png)
+
+2. Create the AKS cluster. Please follow the steps carefully and make sure to replace labuser01 with your lab user identifier.
+
+![](images/create_aks_1.png)
+![](images/create_aks_2.png)
+![](images/create_aks_3.png)
+![](images/create_aks_4.png)
+![](images/create_aks_5.png)
+![](images/create_aks_6.png)
+![](images/create_aks_7.png)
+![](images/create_aks_8.png)
+![](images/create_aks_9.png)
+![](images/create_aks_10.png)
+![](images/create_aks_11.png)
+
+
+3. Switch to your Linux VM once the AKS deployments has finished. Export the kubectrl credentials files.
+
+```sh
 az aks get-credentials --resource-group=$KUBE_GROUP --name=$KUBE_NAME
 ```
 
 4. Now you can look at the cluster config file under
-```
+
+```sh
 cat ~/.kube/config
 ```
 
-![Copy kubeconfig to your local system](images/kubeconfig.png)
+5. Check that everything is running ok
 
-5. Download the config file from ~/.kube/config to your local disk.
-If you are running windows do the following
-- Open a cmd.exe windows
-- Enter  to move to your user profile directory
-```
-cd %HOMEPATH%
-```
-- Create a folder named .kube 
-``` 
-mkdir .kube
-```
-- Copy the file named "config" (no extension) to your .kube folder or create the file and copy its contents (look out for line breaks).
-
-If you are running linux create create a folder named ".kube" in your home directory and move the config file there
-
-6. Download kubectl for your plattform
-https://kubernetes.io/docs/tasks/tools/install-kubectl/ 
-
-or use this link
-https://storage.googleapis.com/kubernetes-release/release/v1.10.0/bin/windows/amd64/kubectl.exe
-
-7. Check that everything is running ok
-```
+```sh
 kubectl cluster-info
 ```
-8. Launch the dashboard
-```
+
+6. Launch the dashboard
+
+```sh
 kubectl proxy
 ```
 
