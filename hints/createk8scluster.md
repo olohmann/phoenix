@@ -27,9 +27,11 @@ More details: [Azure Kubernetes Walkthrough](https://docs.microsoft.com/en-us/az
 ![](images/create_aks_11.png)
 
 
-3. Switch to your Linux VM once the AKS deployments has finished. Export the kubectrl credentials files.
+3. Switch to your Linux VM (or your Windows Subsystem for Linux) once the AKS deployments has finished. Export the kubectrl credentials files.
 
 ```sh
+KUBE_GROUP=labuserXX_rg
+KUBE_NAME=labuserXX
 az aks get-credentials --resource-group=$KUBE_GROUP --name=$KUBE_NAME
 ```
 
@@ -45,11 +47,49 @@ cat ~/.kube/config
 kubectl cluster-info
 ```
 
-6. Launch the dashboard
+6. Launch the API proxy. It will allow us to access the Kubernetes Dashboard
 
 ```sh
 kubectl proxy
 ```
 
-Go to kubernetes dashoard
+7. Go to kubernetes dashoard
+
 http://localhost:8001/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default 
+
+8. [OPTIONAL] If you have been using a Linux VM without a GUI, you need an additional port forwarding to the Linux VM:
+
+```sh
+ssh -f labuserXX@labvm01-XXXX.westeurope.cloudapp.azure.com -L 8001:127.0.0.1:8001 -N
+```
+
+Now you should be able to use your local browser and navigate to the dashboard as expected.
+
+9. Providing the RBAC settings for the Kubernetes Dashboard 
+
+With the default configuration, the Kubernetes Dashboard will signal access faults for reading data from the Kubernetes API. This is due to the RBAC configuration in the cluster. The Dashboard's system user does not have the required permissions.
+
+Create a file called, e.g. kube_dashboard_crb.yaml
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: kubernetes-dashboard
+  labels:
+    k8s-app: kubernetes-dashboard
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: kubernetes-dashboard
+  namespace: kube-system
+```
+
+Apply the config:
+
+```sh
+kubectl apply -f ./kube_dashboard_crb.yaml
+```
