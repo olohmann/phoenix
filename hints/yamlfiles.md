@@ -1,11 +1,12 @@
 # Kubernetes yaml file deployments
 
 ## Yaml file definition
+
 https://kubernetes.io/docs/user-guide/walkthrough/
 
 The simplest pod definition describes the deployment of a single container. For example, an nginx web server pod might be defined as such:
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -19,11 +20,12 @@ spec:
 ```
 
 ## liveness probes and variables
+
 https://kubernetes-v1-4.github.io/docs/user-guide/liveness/
 
 Ensure that health checks are performed against your instance
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -48,9 +50,9 @@ spec:
 
 ## Referencing images from your own registry
 
-To reference an image from your own registry you need to reference a credential for the cluster to login. Check the hint about secrets: [here :blue_book:](createsecrets.md)
+To reference an image from your own registry you need to reference a credential for the cluster to login. Check the hint about secrets: [here :blue_book:](connect_to_azure_container_registry.md)
 
-```
+```yaml
 apiVersion: "v1"
 kind: Pod
 metadata:
@@ -67,5 +69,4 @@ spec:
           protocol: TCP 
   imagePullSecrets:
     - name: nameOfYourSecret
-
 ```

@@ -1,40 +1,27 @@
-# Create Azure Container Registry secret in Kubernetes
-
-!!! This is only required if you are not using an azure container registry that is part of the same subscription
-!!! Prefered approach is to grant the Kubernetes service principal Reader role permissions in your azure container registry via Access Control (IAM
-
-```
-kubectl create secret docker-registry kuberegistry --docker-server 'myveryownregistry-on.azurecr.io' --docker-username 'username' --docker-password 'password' --docker-email 'example@example.com'
-
-```
-
-or
-
-```
-kubectl create secret docker-registry kuberegistry --docker-server $REGISTRY_URL --docker-username $REGISTRY_NAME --docker-password $REGISTRY_PASSWORD --docker-email 'example@example.com'
-```
-
-Hint: In case of problems pulling your images, try creating the secret without '' around the values.
-
-# Deploying additional secrets
+# Deploying Secrets
 https://kubernetes.io/docs/concepts/configuration/secret/
 
 Simple way to deploy secrets via command line
-```
+
+```sh
 kubectl create secret generic mySecretName --from-literal=username=someRandomSecretValue
 ```
+
 OR do it via yaml files  - here secrets must be base64 encoded.
-~~~
+
+```sh
 echo -n "someRandomSecretValue" | base64
-~~~
+```
 
 To create an application insights secret required for the calculator enter the following with the correct key
-~~~
+
+```sh
 kubectl create secret generic appinsightsecret --from-literal=appinsightskey=12345678
-~~~
+```
 
 Define secret in yaml file
-```
+
+```yaml
 apiVersion: v1
 kind: Secret
 metadata:
@@ -45,7 +32,8 @@ data:
 ```
 
 Deploy secret to cluster
-```
+
+```sh
 kubectl create -f secrets.yml
 ```
 
@@ -53,7 +41,7 @@ kubectl create -f secrets.yml
 
 Assuming you have deployed your secret to your cluster you can now reference your secret during deployments and set the value of a secret to an environment variable like this:
 
-```
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
