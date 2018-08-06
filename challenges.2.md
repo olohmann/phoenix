@@ -1,6 +1,6 @@
 # Kubernetes 101 Challenge
 
-For scheduling applications consisting of multiple containers you typically use an orchestrator. Kubernetes is an orchestrator and in this chapter you will set up a Kubernetes cluster in Azure Container Services (ACS) and an Azure Container Registry (ACR) to store your images.
+For scheduling applications consisting of multiple containers you typically use an orchestrator. Kubernetes is an orchestrator and in this chapter you will set up a Kubernetes cluster in Azure Kubernetes Services (AKS) and an Azure Container Registry (ACR) to store your images.
 
 ## Here's what you'll learn
 
@@ -10,8 +10,7 @@ For scheduling applications consisting of multiple containers you typically use 
 - Understand the concept of pods and services and how they come together
 - Get in touch with Yaml files to specify a desired state for a Kubernetes object
 
-
-## 1. Create a Kubernetes cluster on Azure Container Services 
+## 1. Create a Kubernetes cluster on Azure Container Services
 
 > Need help? Check hints [here :blue_book:](hints/createk8scluster.md)!
 - Set up your Kuberenetes cluster using Azure Container Services.
