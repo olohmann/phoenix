@@ -43,51 +43,41 @@ Let's see what happens if one of your pods fails.
 - Delete the frontend pod using the commandline and call the website again.
 - You'll recognize that it will no longer work.
 
-Let's configure it for self-healing.
+Let's configure it for self-healing / rolling upgrade.
 
-> Need help? Check hints [here :blue_book:](hints/AddReplicationController.md)!
-- Create a new yaml file **replicator.yml** and configure it to take care of replication of your application frontend pods. Set the number of replicas to 2.
-    You can find a sample of an replication controller [here](https://kubernetes.io/docs/concepts/workloads/controllers/replicationcontroller/). Try to find the correct values to run your frontend replicated.
-- Apply the replication controller yaml file *replicator.yml*.
-- This will take care of starting new instances whenever one of your pods fails. Try to kill the application again by deleting frontend pods and see if your website stays responsive.
-- Also measure the responsiveness using Application Insights. 
-    - Create a Application Instance on Azure as described [here](hints/applicationinsights.md) and get the instrumentation key
-    - Provide the AI key as an environment variable to your pods as a secret as described [here](hints/createsecrets.md) .
+> Need help? Check hints [here :blue_book:](hints/add_deployment.md)!
+- Create a new yaml file **frontend-deployment.yml** and configure it to take care of replication of your application frontend pods. Set the number of replicas to 3. You can find a deployment sample in the [K8s Docs](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/).
+- This new file will basically a mix of the new deployment resource type and the pod definition file.
+- It will take care of starting new instances whenever one of your pods fails. Try to kill the application again by deleting frontend pods and see if your website stays responsive.
+- Give it a try and kill some pods. They will be recreated.
+- Check the number of backend pods. K8s will take care to keep the number of available pods as specified.
 
+Repeat the same steps for the backend deployment.
 
-# Fully automated VSTS YAML deployment
-In this chapter you will leverage self-healing capabilites of K8s and extend your VSTS pipeline to trigger a deployment to your K8s cluster. Your application will have no downtime during a rolling upgrade.
+## Fully automated VSTS YAML deployment
+
+In this chapter you will leverage your VSTS pipeline to trigger a deployment to your K8s cluster. Your application will have no downtime during a rolling upgrade.
+
 > Need help? Check hints [here :blue_book:](hints/TeamServicesToK8s.md)!
 
-## 1. Create a yaml
-- Create a deployment file to decribe the desired state of your application including replicas of your backend service.
-- Modify the deployment file manually so that 
-    - the backend service can be found
-    - the backend service is available internally only
-    - the correct image is being used. 
-- Apply the deployment file manually.
+### Create one Converged YAML
 
-## 2. Fake a failed pod
-- Check the number of backend pods. K8s will take care to keep the number of available pods as specified.
-- Give it a try and kill some pods. They will be recreated.
+Copy deplyoment and service definitions into a single YAML file (for front- and backend) and separte the definitions by `----` in tha YAML.
 
-## 3. Automate zero downtime deployment via VSTS
-- Now let's automate all of this. Create a VSTS release definition. Make sure it
-- triggers when the build has finished
-- deploy your latest image created by the build definition with help of the deployment.yaml file. You can use the Azure CLI task to do this.
-- Use $(Build.BuildNumber) to apply the correct image.
+Now apply the deployment once manually.
 
-# Bonus Challenge - Technology Shootout
+### Build the Pipeline in VSTS
+
+TBD
+
+## Bonus Challenge - Technology Shootout
+
 Let's say a co-worker of you recommends writing the backend app with in "Go" for performance reasons. How could you try the Go-Backend and run it without downtime? Where could you find performance data? 
-Implement the solution and upgrade your application to the Go-backend without downtime. (The Go backend app can be found in /apps/go-calc-backend .)
+Implement the solution and upgrade your application to the Go-backend without downtime. (The Go backend app can be found in /apps/go-calc-backend.)
+
 - Build the Go backend image 
 - Publish the image in your registry
 - Modify your backend-service Yaml to target the new image
 - Deploy
 - Check monitoring data for performance impact
 - Use helm charts to deploy continous via vsts hints [here :blue_book:](hints/TeamServicesHelmK8s.md)!
-
-
-
-​
-=======
