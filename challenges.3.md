@@ -54,22 +54,6 @@ Let's configure it for self-healing / rolling upgrade.
 
 Repeat the same steps for the backend deployment.
 
-## Fully automated VSTS YAML deployment
-
-In this chapter you will leverage your VSTS pipeline to trigger a deployment to your K8s cluster. Your application will have no downtime during a rolling upgrade.
-
-> Need help? Check hints [here :blue_book:](hints/TeamServicesToK8s.md)!
-
-### Create one Converged YAML
-
-Copy deplyoment and service definitions into a single YAML file (for front- and backend) and separte the definitions by `----` in tha YAML.
-
-Now apply the deployment once manually.
-
-### Build the Pipeline in VSTS
-
-TBD
-
 ## Bonus Challenge - Technology Shootout
 
 Let's say a co-worker of you recommends writing the backend app with in "Go" for performance reasons. How could you try the Go-Backend and run it without downtime? Where could you find performance data? 

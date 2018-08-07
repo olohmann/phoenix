@@ -49,6 +49,42 @@ spec:
 1. First make sure you have no frontend pods running anymore. Use `kubectl get pods` and `kubectl delete pods/foo`.
 2. Apply the Deployment `kubectl apply -f ./frontend-deployment.yml`.
 
+## Repeat for Backend
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calcbackend-deployment
+  labels:
+    app: calcbackend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calcbackend
+  template:
+    metadata:
+      labels:
+        app: calcbackend
+    spec:
+      containers:
+        - name: calcbackend
+          image: labuser01.azurecr.io/js-calc-backend:latest
+          ports:
+            - containerPort: 80
+              name: http
+              protocol: TCP
+          env:
+            - name: "INSTRUMENTATIONKEY"
+              valueFrom:
+                secretKeyRef:
+                  name: appinsightsecret
+                  key: appinsightskey
+            - name: "PORT"
+              value: "80"
+```
+
 ## Explore the Results
 
 1. Use `kubectl get pods` - you should see replicas of the frontend service.
