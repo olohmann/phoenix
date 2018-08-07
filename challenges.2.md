@@ -28,6 +28,8 @@ The deployment will take some time (~ up to 20 min).
 
 ## 3. Kubernetes discovery
 
+| Note: If you deployed the AKS cluster with RBAC enabled, the Kubernetes Dashboard won't work. See <https://github.com/kubernetes/dashboard/wiki/Access-control#admin-privileges> (Official Release) to solve the issue.
+
 - Open the K8s portal for a graphical interface. Run `kubectl proxy` then open up a browser an navigate to <http://localhost:8001/ui> or <http://localhost:8001/api/v1/namespaces/kube-system/services/kubernetes-dashboard/proxy/#!/pod?namespace=default>(might require additional ssh tunneling)
 - If you want to work with namespaces. Create your own namespace `foo` with
 
