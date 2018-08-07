@@ -15,7 +15,7 @@ First add the secret, then reference it in the yaml files.
 Secret deployment:
 
 ```sh
-kubectl create secret generic appinsightsecret --from-literal appinsightskey=914223de-e628-4e51-918e-622b105018ff
+kubectl create secret generic appinsightsecret --from-literal appinsightskey=<YOUR_INSIGHTS_KEY>
 ```
 
 Redeploy `frontend-pod.yaml`:
